@@ -1,6 +1,7 @@
 import argparse
 import os
 import csv
+import random
 
 def get_amount_of_days(days_range):
     days = ["pn", "wt", "śr", "cz", "pt", "sb", "nd"]
@@ -79,8 +80,18 @@ def create_paths(months, days, times_of_days, create):
 
 def create_file(path):
     if not os.path.exists(path):
-        with open(path, 'w') as file:
-            print("TODO")
+        with open(path, 'w', newline='') as file:
+            writer = csv.writer(file, delimiter=";")
+            
+            writer.writerow(["Model", "Wynik", "Czas"])
+            
+            model = random.choice(["A", "B", "C"])
+            wynik = random.randint(0, 1000)
+            czas = f"{random.randint(0, 1000)}s"
+            
+            writer.writerow([model, wynik, czas])
+            
+            print(f"Plik {path} został utworzony.")
     else:
         print(f"Plik {path} już istnieje.")
 
