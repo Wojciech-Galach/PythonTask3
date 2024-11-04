@@ -42,8 +42,3 @@ elif (amount_of_days > len(args.time_of_day)):
 
 # args.months, args.days, args.time_of_day są tej samej długości
 # args.create - True - utworzenie pliku, False - odczytanie danych
-
-print("Miesiące: ", args.months)
-print("Dni: ", args.days)
-print("Pory dnia: ", args.time_of_day)
-print("Utworzenie pliku: ", args.create)
