@@ -1,4 +1,6 @@
 import argparse
+import os
+import csv
 
 def get_amount_of_days(days_range):
     days = ["pn", "wt", "śr", "cz", "pt", "sb", "nd"]
@@ -42,3 +44,62 @@ elif (amount_of_days > len(args.time_of_day)):
 
 # args.months, args.days, args.time_of_day są tej samej długości
 # args.create - True - utworzenie pliku, False - odczytanie danych
+
+DAYS = ["pn", "wt", "śr", "cz", "pt", "sb", "nd"]
+MONTHS = ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze",
+            "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"]
+
+def create_paths(months, days, times_of_days, create):
+    sum = 0
+    iterator = iter(times_of_days)
+    for index in range(len(months)):
+        month = months[index]
+        day = days[index]
+
+        start_day, end_day = day.split('-') if '-' in day else (day, day)
+        index_start = DAYS.index(start_day)
+        index_end = DAYS.index(end_day)
+        selected_days = DAYS[index_start:index_end + 1]
+
+        for day_of_the_week in selected_days:
+            file = 'Dane.csv'
+            tod = next(iterator)
+            path_to_file = os.path.join(month, day_of_the_week, tod, file)
+            path = os.path.join(month, day_of_the_week, tod)
+            os.makedirs(path, exist_ok=True)
+
+            if create:
+                create_file(path_to_file)
+            else:
+                sum += read_file(path_to_file)
+
+
+    if not create:
+        print("Suma = " + str(sum))
+
+def create_file(path):
+    if not os.path.exists(path):
+        with open(path, 'w') as file:
+            print("TODO")
+    else:
+        print(f"Plik {path} już istnieje.")
+
+
+def read_file(path_to_file):
+    if os.path.exists(path_to_file):
+        with open(path_to_file, 'r') as file:
+            reader = csv.reader(file, delimiter=";")
+            lines = list(reader)
+            if not (len(lines) > 1 and len(lines[1]) > 2):
+                print(f"Błędny format pliku {path_to_file}")
+                return 0
+            else:
+                if lines[1][0] == 'A':
+                    return lines[1][2]
+                else:
+                    return 0
+    else:
+        print(f"Plik {path_to_file} nie istnieje.")
+        return 0
+
+create_paths(args.months, args.days, args.time_of_day, args.create)
