@@ -25,8 +25,9 @@ def create_days_string(day_range: str):
         print("Niepoprawny zakres dni tygodnia!!!")
         exit()
 
+months = ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru"]
 parser = argparse.ArgumentParser(description="Tworzenie/Odczyt struktury katalogów/pliku.")
-parser.add_argument("-m", "--months", nargs='+', required=True, help="Lista miesięcy (np. styczeń luty)")
+parser.add_argument("-m", "--months", choices=months, nargs='+', required=True, help="Lista miesięcy (np. styczeń luty)")
 parser.add_argument("-d", "--days", nargs='+', required=True, help="Lista zakresów dni tygodnia (np. pn-wt pt)")
 parser.add_argument("-tod", "--time_of_day", nargs='*', default=['r'], choices=['r', 'w'],
                     help="Wybór pory dnia (r: rano, w: wieczorem), domyślnie rano.")
