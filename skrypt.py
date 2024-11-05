@@ -76,7 +76,7 @@ def create_paths(months, days, times_of_days, create):
 
 
     if not create:
-        print("Suma = " + str(sum))
+        print("Suma = " + str(sum)+"s")
 
 def create_file(path):
     if not os.path.exists(path):
@@ -106,7 +106,8 @@ def read_file(path_to_file):
                 return 0
             else:
                 if lines[1][0] == 'A':
-                    return lines[1][2]
+                    czas = lines[1][2]
+                    return int(czas[:-1])
                 else:
                     return 0
     else:
